@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:m="sap.ui.commons.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	<SelectDialog title="{i18n>Plant}" class=" myDialog11" items="{PlantModel>/}" search="fnPlantSearch" confirm="fnPlantClose1" liveChange="fnPlantSearch">
+		<StandardListItem class="ListItem" title="{PlantModel>Plant}" description="{PlantModel>PlantDesc}" icon="sap-icon://factory"/>
+	</SelectDialog>
+</core:FragmentDefinition>
+

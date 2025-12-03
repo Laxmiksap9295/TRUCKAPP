@@ -1,0 +1,30 @@
+/* Enter your custom styles here */
+
+
+.statusGreen {
+  color: green;
+  font-weight: bold;
+}
+
+.sapFDynamicPage-Std-Tablet,
+.sapFDynamicPageContent,
+.sapFDynamicPage-Std-Tablet,
+.sapFDynamicPageContentFitContainer {
+  padding: 0rem !important;
+}
+
+.alignCenter {
+  justify-content: center;
+}
+
+.MonthPanelCss {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  /* padding-left: 1rem; */
+}
+
+.displayExecBut {
+  margin-top: 15px;
+  margin-left: 30px;
+}

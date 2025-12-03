@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:m="sap.ui.commons.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	<SelectDialog title="{i18n>AllocatedTransporter}" class="myTransport1" items="{TransportModelF4>/}" search="fnTransporterSearch" confirm="fnTransportClose" liveChange="fnTransporterSearch">
+		<StandardListItem class="ListItem" title="{TransportModelF4>Transporter}" description="{TransportModelF4>TransporterName}" icon="sap-icon://factory"/>
+	</SelectDialog>
+</core:FragmentDefinition>

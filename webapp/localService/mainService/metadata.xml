@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Header" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Plant"/>
+                    <PropertyRef Name="Month"/>
+                    <PropertyRef Name="Year"/>
+                </Key>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Month" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Month" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Year" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Year" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="StartDate" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Start Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="EndDate" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="End Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Week1Sdate" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Week 1 Start Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Week1Edate" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Week 1 End Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Week2Sdate" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Week 2 Start Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Week2Edate" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Week 2 End Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Week3Sdate" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Week 3 Start Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Week3Edate" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Week 3 End Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Week4Sdate" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Week 4 Start Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Week4Edate" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Week 4 End Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Week5Sdate" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Week 5 Start Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Week5Edate" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Week 5 End Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Material" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="12" Scale="2" sap:unicode="false" sap:label="Quantity" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="UOM" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="UOM" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="NoOfTrucks" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="No of Trucks" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="TransporterAllocMonthly" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Month"/>
+                    <PropertyRef Name="Year"/>
+                    <PropertyRef Name="Transporter"/>
+                    <PropertyRef Name="TransporterName"/>
+                </Key>
+                <Property Name="Month" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Month" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Year" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Year" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Transporter" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Transporter" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TransporterName" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Transporter Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Volume" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Volume Allocation" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="NoOfTrucks" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="No of Trucks" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="TransporterAllocWeekly" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="WeekNo"/>
+                    <PropertyRef Name="Transporter"/>
+                    <PropertyRef Name="TransporterName"/>
+                </Key>
+                <Property Name="WeekNo" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Week Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Transporter" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Transporter" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TransporterName" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Transporter Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="AvailableTrucks" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Available Trucks" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Volume" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Volume Allocation" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="NoOfTrucks" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="No of Trucks" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Message" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="TYPE"/>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="NUMBER"/>
+                </Key>
+                <Property Name="TYPE" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Message type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ID" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Message Class" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="NUMBER" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Message number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MESSAGE" Type="Edm.String" Nullable="false" MaxLength="220" sap:unicode="false" sap:label="Message text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="LOG_NO" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Log number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="LOG_MSG_NO" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Message no." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MESSAGE_V1" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Message Variable" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MESSAGE_V2" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Message Variable" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MESSAGE_V3" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Message Variable" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MESSAGE_V4" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Message Variable" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PARAMETER" Type="Edm.String" Nullable="false" MaxLength="32" sap:unicode="false" sap:label="Parameter Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ROW" Type="Edm.Int32" Nullable="false" sap:unicode="false" sap:label="Parameter line" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="FIELD" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Field name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SYSTEM" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Logical system" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="TransporterAllocWeek" sap:content-version="1">
+                <End Type="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV.Header" Multiplicity="1" Role="FromRole_TransporterAllocWeek"/>
+                <End Type="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV.TransporterAllocWeekly" Multiplicity="*" Role="ToRole_TransporterAllocWeek"/>
+            </Association>
+            <Association Name="MessageAss" sap:content-version="1">
+                <End Type="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV.Header" Multiplicity="1" Role="FromRole_MessageAss"/>
+                <End Type="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV.Message" Multiplicity="*" Role="ToRole_MessageAss"/>
+            </Association>
+            <Association Name="TransporterAllocMonAss" sap:content-version="1">
+                <End Type="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV.Header" Multiplicity="1" Role="FromRole_TransporterAllocMonAss"/>
+                <End Type="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV.TransporterAllocMonthly" Multiplicity="*" Role="ToRole_TransporterAllocMonAss"/>
+            </Association>
+            <EntityContainer Name="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="HeaderSet" EntityType="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV.Header" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="TransporterAllocMonthlySet" EntityType="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV.TransporterAllocMonthly" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="TransporterAllocWeeklySet" EntityType="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV.TransporterAllocWeekly" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="MessageSet" EntityType="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV.Message" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <AssociationSet Name="TransporterAllocMonAss_AssocSet" Association="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV.TransporterAllocMonAss" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="HeaderSet" Role="FromRole_TransporterAllocMonAss"/>
+                    <End EntitySet="TransporterAllocMonthlySet" Role="ToRole_TransporterAllocMonAss"/>
+                </AssociationSet>
+                <AssociationSet Name="MessageAss_AssocSet" Association="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV.MessageAss" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="HeaderSet" Role="FromRole_MessageAss"/>
+                    <End EntitySet="MessageSet" Role="ToRole_MessageAss"/>
+                </AssociationSet>
+                <AssociationSet Name="TransporterAllocWeek_AssocSet" Association="ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV.TransporterAllocWeek" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="HeaderSet" Role="FromRole_TransporterAllocWeek"/>
+                    <End EntitySet="TransporterAllocWeeklySet" Role="ToRole_TransporterAllocWeek"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <atom:link rel="self" href="http://10.114.8.220:8000/sap/opu/odata/sap/ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://10.114.8.220:8000/sap/opu/odata/sap/ZCGMMGW_ROC_TRUCK_ALLOCATION_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

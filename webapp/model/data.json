@@ -1,0 +1,45 @@
+{
+    "plans": [
+      
+      {
+        "label": "Week 1 Plan",
+        "startDate": "5-Jun-25",
+        "endDate": "11-Jun-25",
+        "qty": 600,
+        "uom": "CBM",
+        "truck": 24
+      },
+      {
+        "label": "Week 2 Plan",
+        "startDate": "12-Jun-25",
+        "endDate": "18-Jun-25",
+        "qty": 400,
+        "uom": "CBM",
+        "truck": 16
+      },
+      {
+        "label": "Week 3 Plan",
+        "startDate": "19-Jun-25",
+        "endDate": "25-Jun-25",
+        "qty": 500,
+        "uom": "CBM",
+        "truck": 20
+      },
+      {
+        "label": "Week 4 Plan",
+        "startDate": "26-Jun-25",
+        "endDate": "2-Jul-25",
+        "qty": 400,
+        "uom": "CBM",
+        "truck": 16
+      },
+      {
+        "label": "Week 5 Plan",
+        "startDate": "3-Jul-25",
+        "endDate": "4-Jul-25",
+        "qty": 50,
+        "uom": "CBM",
+        "truck": 2
+      }
+    ]
+   }

@@ -1,0 +1,5 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog title="{i18n>Transporter}"  multiSelect="true" class=" myDialog1" items="{oTransporterModel>/}" search="onReportTransporterF4Search" confirm="onReportTransporterF4Confirm" liveChange="onReportTransporterF4Search">
+		<StandardListItem class="ListItem" title="{oTransporterModel>Transporter}" description="{oTransporterModel>TransporterName}" icon="sap-icon://truck"/>
+	</SelectDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,951 @@
+<mvc:View controllerName="com.olam.zgtmmtruckalloc.controller.View1"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
+    xmlns:ui="sap.ui.table"
+    xmlns:f="sap.f"
+    xmlns:fb="sap.ui.comp.filterbar">
+    <Page id="page" title="{i18n>title}" class="sapUiSizeCompact">
+        <customHeader>
+            <Bar class="Title_Bar">
+                <contentLeft>
+                    <!-- <ToolbarSpacer /> -->
+                    <Label text="{i18n>Create}" design="Bold" textAlign="Center" id = "id_PageTitle" />
+                    <!-- <ToolbarSpacer /> -->
+                </contentLeft>
+
+                <contentRight>
+                    <SegmentedButton id = "idSegmentedButton" selectedKey="CREATE">
+                        <items>
+                            <SegmentedButtonItem id = "idSegBtnC" icon="sap-icon://create" tooltip="{i18n>Create}" key="CREATE" press="onselectSegBtn" />
+                            <SegmentedButtonItem id = "idSegBtnM" icon="sap-icon://edit" tooltip="{i18n>Modify}" key="CHANGE" press="onselectSegBtn" />
+                            <SegmentedButtonItem id = "idSegBtnD" icon="sap-icon://display" tooltip="{i18n>Display}" key="DISPLAY" press="onselectSegBtn" />
+                            <SegmentedButtonItem id = "idSegBtnA" icon="sap-icon://approvals" tooltip="{i18n>Approvals}" key="Approval" press="onselectSegBtn" />
+                            <SegmentedButtonItem id = "idSegBtnR" icon="sap-icon://manager-insight" tooltip="{i18n>Reports}" key="REPORTS" press="onselectSegBtn" />
+                        </items>
+                    </SegmentedButton>
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <f:DynamicPage headerExpanded="{/headerExpanded}" id="idDynamicPage1" headerPinned="true">
+            <!-- <f:title>
+                <f:DynamicPageTitle>
+                    <f:heading>
+                        <Title id = "id_PageTitle" text=""/>
+                    </f:heading>
+                </f:DynamicPageTitle>
+            </f:title> -->
+            <f:header>
+                <f:DynamicPageHeader >
+                    <f:content>
+                        <fb:FilterBar visible="{VISI>/FilterItem}" id="filterbar" showFilterBar="true" useToolbar="false" showClearOnFB="true" clear="onClearFilters" showFilterConfiguration="false" search="onGo" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+                            <fb:filterItems>
+                                <fb:FilterItem id="id_FilterYear" name="Year" label="{i18n>Year}" mandatory="true">
+                                    <fb:control>
+                                        <!-- <Input valueHelpRequest="onValueHelpRequest" showValueHelp="false" placeholder="Enter Year e.g. 2025" /> -->
+                                        <DatePicker id="idYearPicker" displayFormat="yyyy" valueFormat="yyyy" change="onYearChange" placeholder="Select Year" />
+                                    </fb:control>
+                                </fb:FilterItem>
+                                <fb:FilterItem id="id_FilterPlant" name="Data Source Type" label="{i18n>Plant}" mandatory="true">
+                                    <fb:control>
+                                        <Input id="id_Plant" valueHelpRequest="oPlantValueHelp" showValueHelp="true" valueHelpOnly="true" placeholder="Select a value" />
+                                    </fb:control>
+                                </fb:FilterItem>
+                                <!-- <fb:FilterItem id="id_FilterMaterial" name="Group" label="{i18n>Material}" mandatory="true">
+                                    <fb:control>
+                                        <Input id="id_Material" valueHelpRequest="onMaterialValueHelp" valueHelpOnly="true" showValueHelp="true" placeholder="Select a value" />
+                                    </fb:control>
+                                </fb:FilterItem> -->
+                                <fb:FilterItem id="id_FilterMonth" name="Posting Period" label="{i18n>Month}" mandatory="true">
+                                    <fb:control>
+                                        <ComboBox id="id_MonthCombo" items="{oMonthsModel>/months}" selectionChange="onSelectMonth">
+                                            <core:Item id="id_SlectedKey" key="{oMonthsModel>key}" text="{oMonthsModel>name}" enabled="{oMonthsModel>menable}" />
+                                        </ComboBox>
+                                        <!-- <Input valueHelpRequest="onValueHelpRequest" showValueHelp="true" placeholder="Select a value" /> -->
+                                    </fb:control>
+                                </fb:FilterItem>
+
+                                <fb:FilterItem id="id_FilterUOM" name="UOM" label="{i18n>UOM}">
+                                    <fb:control>
+                                        <!-- <Input valueHelpRequest="onValueHelpRequest" showValueHelp="false" placeholder="Enter Year e.g. 2025" /> -->
+                                        <Input id="inp_uom" value="CBM" editable="false" />
+                                    </fb:control>
+                                </fb:FilterItem>
+                                <fb:FilterItem id="id_MonthlyFilter" name="Truck" label="{i18n>MonthlyQuantity}" visible="false" mandatory="true">
+                                    <fb:control>
+                                        <Input id="id_monthFilter" type="Number" value="" placeholder="Enter numbers Eg:123456" enabled="true" liveChange="onMonthlyQuantity" />
+                                    </fb:control>
+                                </fb:FilterItem>
+                            </fb:filterItems>
+                        </fb:FilterBar>
+                    </f:content>
+                    <f:content>
+
+                        <form:Form id="id_displayForm" editable="true" visible="{VISI>/FormDisp}" class="FieldLabel">
+                            <form:layout>
+                                <form:ResponsiveGridLayout labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="2" columnsS="1" singleContainerFullSize="false" />
+                            </form:layout>
+                            <form:formContainers>
+                                <form:FormContainer>
+                                    <form:formElements>
+                                        <form:FormElement label="{i18n>Plant}" class="FieldLabel">
+                                            <form:fields>
+                                                <Input id="id_Plant1" value="" maxLength="10" valueHelpRequest="oPlantValueHelp" showValueHelp="true" enabled="{oModel>/EnableFlag}" class="sapUiSmallMarginEnd" valueHelpOnly="true" required="true" liveChange="onPonumberlivechange" change="onPonumberchange">
+                                                    <layoutData>
+                                                        <l:GridData span="XL12 L12 M12 S12" />
+                                                    </layoutData>
+                                                </Input>
+                                            </form:fields>
+                                        </form:FormElement>
+                                    </form:formElements>
+                                </form:FormContainer>
+                                <!-- <form:FormContainer>
+                                    <form:formElements>
+                                        <form:FormElement label="{i18n>Material}" class="FieldLabel">
+                                            <form:fields>
+                                                <Input id="id_Material1" value="" maxLength="10" tooltip="{oModel>/MaterialText}" valueHelpRequest="onMaterialValueHelp" showValueHelp="true" enabled="{oModel>/EnableFlag}" class="sapUiSmallMarginEnd" valueHelpOnly="true" required="true" liveChange="onPonumberlivechange" change="onPonumberchange">
+                                                    <layoutData>
+                                                        <l:GridData span="XL12 L12 M12 S12" />
+                                                    </layoutData>
+                                                </Input>
+                                            </form:fields>
+                                        </form:FormElement>
+                                    </form:formElements>
+                                </form:FormContainer> -->
+                                <!-- <form:FormContainer>
+                                    <form:formElements>
+                                        <form:FormElement label="{i18n>MaterialDesc}" class="FieldLabel">
+                                            <form:fields>
+                                                <Input id="id_MaterialDesc" enabled="false" class="sapUiSmallMarginEnd">
+                                                    <layoutData>
+                                                        <l:GridData span="XL12 L12 M12 S12" />
+                                                    </layoutData>
+                                                </Input>
+                                            </form:fields>
+                                        </form:FormElement>
+                                    </form:formElements>
+                                </form:FormContainer> -->
+                                <form:FormContainer>
+                                    <form:formElements>
+                                        <form:FormElement label="{i18n>UOM}" class="FieldLabel">
+                                            <form:fields>
+                                                <!-- <Input id="id_uom1" value="{oModel>/PoNumber}" maxLength="10" enabled="false" class="sapUiSmallMarginEnd" liveChange="onPonumberlivechange" change="onPonumberchange"> -->
+                                                <Input id="id_uom1" value="CBM" maxLength="10" enabled="false" class="sapUiSmallMarginEnd" liveChange="onPonumberlivechange" change="onPonumberchange">
+                                                    <layoutData>
+                                                        <l:GridData span="XL12 L12 M12 S12" />
+                                                    </layoutData>
+                                                </Input>
+                                            </form:fields>
+                                        </form:FormElement>
+                                    </form:formElements>
+                                </form:FormContainer>
+                                <form:FormContainer>
+                                    <form:formElements>
+                                        <form:FormElement label="{i18n>Month}" class="FieldLabel">
+                                            <form:fields>
+                                                <MultiComboBox id="id_MonthCombo1" showSelectAll="true" items="{oMonthsModel>/months}" selectionChange="onSelectMonth" required="true">
+                                                    <core:Item id="id_SlectedKey1" key="{oMonthsModel>key}" text="{oMonthsModel>name}" enabled="{oMonthsModel>menable}" />
+
+                                                    <layoutData>
+                                                        <l:GridData span="XL12 L12 M12 S12" />
+                                                    </layoutData>
+                                                </MultiComboBox>
+                                            </form:fields>
+                                        </form:FormElement>
+                                    </form:formElements>
+                                </form:FormContainer>
+                                <form:FormContainer>
+                                    <form:formElements>
+                                        <form:FormElement label="{i18n>Year}" class="FieldLabel">
+                                            <form:fields>
+                                                <DatePicker id="idYearPicker1" displayFormat="yyyy" valueFormat="yyyy" change="onYearChange" placeholder="Select Year" required="true">
+                                                    <layoutData>
+                                                        <l:GridData span="XL12 L12 M12 S12" />
+                                                    </layoutData>
+                                                </DatePicker>
+                                            </form:fields>
+                                        </form:FormElement>
+                                    </form:formElements>
+                                </form:FormContainer>
+                                <form:FormContainer >
+                                    <form:formElements>
+                                        <form:FormElement label="" class="FieldLabel">
+                                            <form:fields>
+                                                <Button text="Execute" class="displayExecBut" width="50%" type="Emphasized" press="onExecute">
+                                                    <layoutData>
+                                                        <l:GridData span="XL12 L12 M12 S12" />
+                                                    </layoutData>
+                                                </Button>
+                                            </form:fields>
+                                        </form:FormElement>
+                                    </form:formElements>
+                                </form:FormContainer>
+                            </form:formContainers>
+                        </form:Form>
+                    </f:content>
+                </f:DynamicPageHeader>
+            </f:header>
+            <f:content>
+                <VBox id="idPageContent">
+                    <Panel visible="{VISI>/table}">
+                        <Table id="idPlanTable" items="{TableModel>/}" width="auto">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <ToolbarSpacer />
+                                    <Label id="id_MonthQunaty1" text="{i18n>MonthlyQuantity1}" design="Bold" />
+                                    <Text id="id_month" text="{TableModel>/MonthlyQty}" />
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column>
+                                    <Label text="{i18n>WeelkyPlan}"/>
+                                </Column>
+                                <Column>
+                                    <Label text="{i18n>StartDate}"/>
+                                </Column>
+                                <Column>
+                                    <Label text="{i18n>EndDate}"/>
+                                </Column>
+                                <!-- <Column> <Label text="{i18n>Switch}" textAlign="Center"/></Column> -->
+                                <Column>
+                                    <Label text="{i18n>Quantity}" textAlign="End"/>
+                                </Column>
+                                <Column>
+                                    <Label text="{i18n>UOM}"/>
+                                </Column>
+                                <Column>
+                                    <Label text="{i18n>TruckRequired}"/>
+                                </Column>
+                                <Column>
+                                    <Label text="{i18n>Transport}"/>
+                                </Column>
+                                <Column>
+                                    <Label text="{i18n>Status}"/>
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{TableModel>WeekNo}" />
+                                        <Text text="{TableModel>WeekSdate}" />
+                                        <Text text="{TableModel>WeekEdate}" />
+                                        <!-- <Switch state="false" customTextOn="{i18n>Percent}" customTextOff="{i18n>Numbers}" />
+                                        <Input value="{TableModel>Quantity}" liveChange="onWkQntyLiveChange" type="Number" change="onQuantityChange" width="75%" textAlign="End"></Input> -->
+                                        <HBox alignItems="Center">
+                                            <Switch state="{= ${TableModel>Qtyperflag} === 'P' }" customTextOn="{i18n>p}" customTextOff="{i18n>q}" change=".onSwitchChange"/>
+                                            <Input value="{TableModel>QtyPer}" liveChange="onWkQntyLiveChange" type="Number" change="onQuantityChange" textAlign="End" visible="{= ${TableModel>Qtyperflag} === 'P' }"></Input>
+                                            <Input value="{TableModel>Quantity}" liveChange="onWkQntyLiveChange" type="Number" change="onQuantityChange" textAlign="End" visible="{= ${TableModel>Qtyperflag} === 'Q' }"></Input>
+                                        </HBox>
+                                        <Text text="{TableModel>UOM}" />
+                                        <Text text="{TableModel>NoOfTrucks}" textAlign="End"></Text>
+                                        <Button icon="sap-icon://inventory" enabled="{TableModel>enableInventory}" press="onTransportDialog" />
+                                        <Text text="{TableModel>Status}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </Panel>
+                    <ScrollContainer height="500px" vertical="true">
+                        <VBox id="weekContainer" visible="{VISI>/treetable}" />
+                        <VBox id="monthPanelContainer" visible="{VISI>/treetable}" />
+                    </ScrollContainer>
+                </VBox>
+
+            </f:content>
+        </f:DynamicPage>
+        <f:DynamicPage id="idDynamicPage2" visible="false" headerPinned="true">
+            <f:content>
+                <!-- <VBox> -->
+                <SplitApp id="SplitApp" initialDetail="detail" initialMaster="master">
+                    <detailPages>
+
+                        <Page id="detail" showHeader="false" backgroundDesign= "List">
+                            <ScrollContainer height="500px" vertical="true">
+                                <VBox id="idPageContent1">
+                                    <Toolbar class="alignCenter">
+                                        <Title text="{i18n>Approvals}" level="H1"/>
+                                    </Toolbar>
+                                    <VBox id="weekContainer1">
+                                        <Toolbar>
+                                            <Title text="{i18n>WeekData}" level="H2"/>
+                                            <Title text="{i18n>Status1}" level="H2"/>
+                                            <Label id="idDetailStatus" design="Bold" />
+                                            <ToolbarSpacer/>
+                                            <!-- <ToolbarSeparator/> -->
+                                            <Label text="{i18n>Month1}" design="Bold"/>
+                                            <Label id="idDetailMonth" design="Bold" />
+                                            <!-- <ToolbarSeparator/>
+                                            <Label text="{i18n>MaterialNo1}" design="Bold"/>
+                                            <Label id="idDetailMaterial" design="Bold" /> -->
+                                            <ToolbarSeparator/>
+                                            <Label text="{i18n>TotalQuantity1}" design="Bold"/>
+                                            <Label id="idDetailTotQuantity" design="Bold" />
+                                            <!-- <ToolbarSeparator/> -->
+                                            <ToolbarSpacer/>
+                                            <Button text="{i18n>Download}" icon="sap-icon://download" type="Emphasized" press="onDownloadExcel"/>
+                                        </Toolbar>
+                                    </VBox>
+                                    <Panel >
+                                        <VBox id="idApprVBox"/>
+                                        <!-- <Table id="idApprovalWeekTable" items="{TableModel>/}" width="auto">
+                                  
+                                    <columns>
+                                        <Column>
+                                            <Label text="{i18n>WeelkyPlan}"/>
+                                        </Column>
+                                        <Column>
+                                            <Label text="{i18n>StartDate}"/>
+                                        </Column>
+                                        <Column>
+                                            <Label text="{i18n>EndDate}"/>
+                                        </Column>
+                                        <Column> <Label text="{i18n>Switch}" textAlign="Center"/></Column>
+                                        <Column>
+                                            <Label text="{i18n>Quantity}" textAlign="End"/>
+                                        </Column>
+                                        <Column>
+                                            <Label text="{i18n>UOM}"/>
+                                        </Column>
+                                        <Column>
+                                            <Label text="{i18n>TruckRequired}"/>
+                                        </Column>
+                                        <Column>
+                                            <Label text="{i18n>Transport}"/>
+                                        </Column>
+                                        <Column>
+                                            <Label text="{i18n>Status}"/>
+                                        </Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem>
+                                            <cells>
+                                                <Text text="{TableModel>WeekNo}" />
+                                                <Text text="{TableModel>WeekSdate}" />
+                                                <Text text="{TableModel>WeekEdate}" />
+                                             
+                                                <Text text="{TableModel>Qtyperflag}" />
+                                                <Text text="{TableModel>UOM}" />
+                                                <Text text="{TableModel>NoOfTrucks}" textAlign="End"></Text>
+                                                <Button icon="sap-icon://inventory" enabled="{TableModel>enableInventory}" press="onTransportDialog" />
+                                                <Text text="{TableModel>Status}" />
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table> -->
+                                    </Panel>
+                                </VBox>
+                            </ScrollContainer>
+                        </Page>
+
+                    </detailPages>
+                    <masterPages>
+
+                        <Page id="master" showHeader="false" backgroundDesign= "List">
+                            <ScrollContainer height="500px" vertical="true">
+                                <VBox>
+                                    <Toolbar >
+                                        <SearchField id="idSearchField" liveChange="onSearchRequester"/>
+                                        <Button icon="sap-icon://refresh" press="getAppovalRecords" />
+                                    </Toolbar>
+                                    <!-- <List id="idApprovalMaster" items="{ path:'ApprovalModel>/', sorter: { path: 'Serialno', descending: true } }"> -->
+                                    <List id="idApprovalMaster" items="{ path:'TreeModel>/' }">
+                                        <items>
+                                            <ObjectListItem title="{TreeModel>Serialno}" number="{TreeModel>Status}" type="Active" press="onFetchWeeklyReport">
+                                                <!-- <firstStatus>
+                                                <ObjectStatus text="{TreeModel>Year}" />
+                                            </firstStatus> -->
+                                                <secondStatus>
+                                                    <!-- <ObjectStatus text="{parts: [{path: 'TreeModel>StartDate'}], formatter: '.Formatter.formatDate'}" />-->
+                                                    <ObjectStatus text="{TreeModel>StartDate}" />
+                                                </secondStatus>
+                                                <attributes>
+                                                    <ObjectAttribute text="{= 'Plant - ' + ${TreeModel>Plant}}" />
+                                                    <!-- <ObjectAttribute text="{= 'Mat - ' + ${TreeModel>Material}}" /> -->
+                                                </attributes>
+                                            </ObjectListItem>
+                                        </items>
+                                    </List>
+                                </VBox>
+                            </ScrollContainer>
+                        </Page>
+
+                    </masterPages>
+                </SplitApp>
+                <!-- </VBox> -->
+            </f:content>
+        </f:DynamicPage>
+
+        <f:DynamicPage id="idDynamicPage3" visible="false" headerPinned="true">
+            <f:header>
+                <f:DynamicPageHeader >
+                    <f:content>
+                        <fb:FilterBar id="filterbar3" showFilterBar="true" useToolbar="false" showClearOnFB="true" clear="onClearReportFilters" showFilterConfiguration="false" search="onFetchReportsData" class="sapUiMediumMarginEnd">
+                            <fb:filterItems>
+                                <fb:FilterItem id="id_ReportFilterPlant" name="Data Source Type" label="{i18n>Plant}" mandatory="true">
+                                    <fb:control>
+                                        <MultiInput id="id_ReportPlant" valueHelpRequest="oPlantValueHelp" showValueHelp="true" valueHelpOnly="true" placeholder="{i18n>SelectPlant}" />
+                                    </fb:control>
+                                </fb:FilterItem>
+                                <fb:FilterItem id="id_ReportFilterYear" name="Year" label="{i18n>DateRange}" mandatory="true">
+                                    <fb:control>
+                                        <!-- <Input valueHelpRequest="onValueHelpRequest" showValueHelp="false" placeholder="Enter Year e.g. 2025" /> -->
+                                        <!-- <DatePicker id="id_ReportYearPicker" displayFormat="yyyy" valueFormat="yyyy" placeholder="{i18n>SelectYear}" /> -->
+                                        <DateRangeSelection id="id_ReportRangePicker" displayFormat="MMMM yyyy" valueFormat="mm" placeholder="{i18n>SelectRange}" maxDate="{path: 'currentMonthModel>/maxDate'}"/>
+                                    </fb:control>
+                                </fb:FilterItem>
+                                <!-- <fb:FilterItem id="id_ReportFilterMonth" name="Month" label="{i18n>Month}" mandatory="true">
+                                            <fb:control>
+                                                <Input valueHelpRequest="onValueHelpRequest" showValueHelp="false" placeholder="Enter Year e.g. 2025" />
+                                                <DatePicker id="idMonthPicker2" displayFormat="MMMM yyyy" valueFormat="MMMM" change="onYearChange" placeholder="{i18n>SelectMonth}" />
+                                                <MultiComboBox id="id_ReportMonthCombo" showSelectAll="true" items="{oMonthsModel>/months}" required="true" placeholder="{i18n>SelectMonth}">
+                                                    <core:Item id="id_ReportMonthSelectedKey" key="{oMonthsModel>key}" text="{oMonthsModel>name}"/>
+                                                </MultiComboBox>
+                                            </fb:control>
+                                        </fb:FilterItem> -->
+                                <fb:FilterItem id="id_ReportFilterTransporter" name="Group" label="{i18n>Transporter}">
+                                    <fb:control>
+                                        <MultiInput id="id_ReportTransporter" valueHelpRequest="onReportTransporterF4" valueHelpOnly="true" showValueHelp="true" placeholder="{i18n>SelectTransporter}" />
+                                    </fb:control>
+                                </fb:FilterItem>
+                                <fb:FilterItem id="id_ReportFilterTATType" name="TAT Process" label="{i18n>TATProcess}" visible="false">
+                                    <fb:control>
+                                        <!-- <MultiInput id="id_ReportTransporter" valueHelpRequest="onReportTransporterF4" valueHelpOnly="true" showValueHelp="true" placeholder="{i18n>SelectTransporter}" /> -->
+                                            <ComboBox id="idProcessStep" required="true">
+                                                <items>
+                                                    <core:Item key="a" text="Truck Reporting - Stuffing" />
+                                                    <core:Item key="b" text="Stuffing - Gross Weight" />
+                                                    <core:Item key="c" text="Gross Weight - Gate Exit" />
+                                                    <core:Item key="d" text="Truck Reporting - Gate Exit" />
+                                                    <core:Item key="e" text="Gate Exit - Port In" />
+                                                    <core:Item key="f" text="Port In - Port Out" />
+                                                    <core:Item key="g" text="Truck Reporting - Port Out" />
+                                                </items>
+                                            </ComboBox>
+                                    </fb:control>
+                                </fb:FilterItem>
+                            </fb:filterItems>
+                        </fb:FilterBar>
+                        <HBox class="sapUiSmallMarginTop">
+                            <Label labelFor="rbg1" text="{i18n>ReportType}" class="sapUiSmallMarginTop"/>
+                            <RadioButtonGroup id="id_ReportType" valueState="Information" select="onReportTypeChange" columns="3" width="100%" class="sapUiTinyMargin">
+                                <RadioButton id="Report1" text="{i18n>PlanActuals}" />
+                                <RadioButton id="Report2" text="{i18n>TransporterAnalysis}" />
+                                <RadioButton id="Report3" text="{i18n>TATAnalysis}" />
+                            </RadioButtonGroup>
+                        </HBox>
+
+                    </f:content>
+                </f:DynamicPageHeader >
+            </f:header>
+
+            <f:content>
+                <ui:Table id="idReportsTable" rows="{/yourModelPath}" selectionMode="None" visibleRowCount="10" visibleRowCountMode="Auto">
+                    <ui:extension>
+                        <Toolbar id="idReportsToolbar" visible="false">
+                            <ToolbarSpacer />
+                            <Title id="idToolbarTitle" level="H1" />
+                            <ToolbarSpacer />
+                            <Button icon="sap-icon://action-settings" press="onPersoButtonPressed" />
+                            <Button icon="sap-icon://download" press="onReportDownload" />
+                        </Toolbar>
+                    </ui:extension>
+                    <!--  <ui:columns>
+                        <ui:Column sortProperty="Plant" filterProperty="Plant">
+                            <ui:label>
+                                <Text text="{i18n>plant}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Plant}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="CompanyCode" filterProperty="CompanyCode">
+                            <ui:label>
+                                <Text text="{i18n>companyCode}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{CompanyCode}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="SerialKey" filterProperty="SerialKey">
+                            <ui:label>
+                                <Text text="{i18n>serialKey}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{SerialKey}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="Month" filterProperty="Month">
+                            <ui:label>
+                                <Text text="{i18n>month}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Month}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="Year" filterProperty="Year">
+                            <ui:label>
+                                <Text text="{i18n>year}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Year}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="MonthlyQty" filterProperty="MonthlyQty">
+                            <ui:label>
+                                <Text text="{i18n>monthlyQty}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{MonthlyQty}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="WeekNumber" filterProperty="WeekNumber">
+                            <ui:label>
+                                <Text text="{i18n>weekNumber}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{WeekNumber}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="WeekStartEnd" filterProperty="WeekStartEnd">
+                            <ui:label>
+                                <Text text="{i18n>weekStartEnd}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{WeekStartEnd}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="WeekQty" filterProperty="WeekQty">
+                            <ui:label>
+                                <Text text="{i18n>weekQty}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{WeekQty}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="UOM" filterProperty="UOM">
+                            <ui:label>
+                                <Text text="{i18n>uom}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{UOM}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="TransporterName" filterProperty="TransporterName">
+                            <ui:label>
+                                <Text text="{i18n>transporterName}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{TransporterName}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="TransporterDesc" filterProperty="TransporterDesc">
+                            <ui:label>
+                                <Text text="{i18n>transporterDesc}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{TransporterDesc}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="TrucksPlanned" filterProperty="TrucksPlanned" visible="false">
+                            <ui:label>
+                                <Text text="{i18n>trucksPlanned}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{TrucksPlanned}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="TrucksFulfilled" filterProperty="TrucksFulfilled" visible="false">
+                            <ui:label>
+                                <Text text="{i18n>trucksFulfilled}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{TrucksFulfilled}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="VersionSerialNo" filterProperty="VersionSerialNo" visible="false">
+                            <ui:label>
+                                <Text text="{i18n>versionSerialNo}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{VersionSerialNo}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="AllocationStatus" filterProperty="AllocationStatus" visible="false">
+                            <ui:label>
+                                <Text text="{i18n>allocationStatus}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{AllocationStatus}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="ApprovalDate" filterProperty="ApprovalDate" visible="false">
+                            <ui:label>
+                                <Text text="{i18n>approvalDate}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{ApprovalDate}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="ApprovalTime" filterProperty="ApprovalTime" visible="false">
+                            <ui:label>
+                                <Text text="{i18n>approvalTime}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{ApprovalTime}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="ChangedBy" filterProperty="ChangedBy" visible="false">
+                            <ui:label>
+                                <Text text="{i18n>changedBy}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{ChangedBy}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="ChangedOn" filterProperty="ChangedOn" visible="false">
+                            <ui:label>
+                                <Text text="{i18n>changedOn}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{ChangedOn}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="LastChangedTime" filterProperty="LastChangedTime" visible="false">
+                            <ui:label>
+                                <Text text="{i18n>lastChangedTime}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{LastChangedTime}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="Remarks" filterProperty="Remarks">
+                            <ui:label>
+                                <Text text="{i18n>remarks}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Remarks}" />
+                            </ui:template>
+                        </ui:Column>
+                    </ui:columns> -->
+                </ui:Table>
+                <!-- <ui:Table id="idTransporterReportsTable" rows="{/yourModelPath}" selectionMode="None" visibleRowCount="10" visibleRowCountMode="Auto">
+                    <ui:extension>
+                        <Toolbar>
+                            <ToolbarSpacer />
+                            <Title text="{i18n>Reports} - {i18n>TransporterAnalysis}" level="H1" />
+                            <ToolbarSpacer />
+                            <Button icon="sap-icon://action-settings" press="onPersoButtonPressed" />
+                            <Button icon="sap-icon://download" press="onReportDownload" />
+                        </Toolbar>
+                    </ui:extension>
+                    <ui:columns>
+                        <ui:Column sortProperty="Plant" filterProperty="Plant">
+                            <ui:label>
+                                <Text text="{i18n>plant}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Plant}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="CompanyCode" filterProperty="CompanyCode">
+                            <ui:label>
+                                <Text text="{i18n>companyCode}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{CompanyCode}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="Month" filterProperty="Month">
+                            <ui:label>
+                                <Text text="{i18n>month}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Month}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="Year" filterProperty="Year">
+                            <ui:label>
+                                <Text text="{i18n>year}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Year}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="TransporterNumber" filterProperty="TransporterNumber">
+                            <ui:label>
+                                <Text text="{i18n>transporterNumber}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{TransporterNumber}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="TransporterDescription" filterProperty="TransporterDescription">
+                            <ui:label>
+                                <Text text="{i18n>transporterDescription}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{TransporterDescription}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="MonthlyTruckPlanned" filterProperty="MonthlyTruckPlanned">
+                            <ui:label>
+                                <Text text="{i18n>monthlyTruckPlanned}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{MonthlyTruckPlanned}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="InProgressTruck" filterProperty="InProgressTruck">
+                            <ui:label>
+                                <Text text="{i18n>inProgressTruck}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{InProgressTruck}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="WBID" filterProperty="WBID">
+                            <ui:label>
+                                <Text text="{i18n>wbId}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{WBID}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="Status" filterProperty="Status">
+                            <ui:label>
+                                <Text text="{i18n>status}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Status}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="VehicleNo" filterProperty="VehicleNo">
+                            <ui:label>
+                                <Text text="{i18n>vehicleNo}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{VehicleNo}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="VehicleType" filterProperty="VehicleType">
+                            <ui:label>
+                                <Text text="{i18n>vehicleType}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{VehicleType}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="DriverName" filterProperty="DriverName">
+                            <ui:label>
+                                <Text text="{i18n>driverName}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{DriverName}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="DriverMobileNo" filterProperty="DriverMobileNo">
+                            <ui:label>
+                                <Text text="{i18n>driverMobileNo}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{DriverMobileNo}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="CreatedBy" filterProperty="CreatedBy">
+                            <ui:label>
+                                <Text text="{i18n>createdBy}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{CreatedBy}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="CreatedOn" filterProperty="CreatedOn">
+                            <ui:label>
+                                <Text text="{i18n>createdOn}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{CreatedOn}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="CreatedTime" filterProperty="CreatedTime">
+                            <ui:label>
+                                <Text text="{i18n>createdTime}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{CreatedTime}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="DeliveryNo" filterProperty="DeliveryNo">
+                            <ui:label>
+                                <Text text="{i18n>deliveryNo}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{DeliveryNo}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="ItemNo" filterProperty="ItemNo">
+                            <ui:label>
+                                <Text text="{i18n>itemNo}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{ItemNo}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="Material" filterProperty="Material">
+                            <ui:label>
+                                <Text text="{i18n>material}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Material}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="MaterialDescription" filterProperty="MaterialDescription">
+                            <ui:label>
+                                <Text text="{i18n>materialDescription}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{MaterialDescription}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="ShippingPoint" filterProperty="ShippingPoint">
+                            <ui:label>
+                                <Text text="{i18n>shippingPoint}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{ShippingPoint}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="Division" filterProperty="Division">
+                            <ui:label>
+                                <Text text="{i18n>division}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Division}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="DistributionChannel" filterProperty="DistributionChannel">
+                            <ui:label>
+                                <Text text="{i18n>distributionChannel}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{DistributionChannel}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="Incoterms" filterProperty="Incoterms">
+                            <ui:label>
+                                <Text text="{i18n>incoterms}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Incoterms}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="DeliveryQty" filterProperty="DeliveryQty">
+                            <ui:label>
+                                <Text text="{i18n>deliveryQty}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{DeliveryQty}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="GrossWeight" filterProperty="GrossWeight">
+                            <ui:label>
+                                <Text text="{i18n>grossWeight}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{GrossWeight}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="UOM" filterProperty="UOM">
+                            <ui:label>
+                                <Text text="{i18n>uom}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{UOM}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="Route" filterProperty="Route">
+                            <ui:label>
+                                <Text text="{i18n>route}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Route}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="Batch" filterProperty="Batch">
+                            <ui:label>
+                                <Text text="{i18n>batch}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Batch}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="ReceivingPlant" filterProperty="ReceivingPlant">
+                            <ui:label>
+                                <Text text="{i18n>receivingPlant}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{ReceivingPlant}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="MaterialDocumentNo" filterProperty="MaterialDocumentNo">
+                            <ui:label>
+                                <Text text="{i18n>materialDocumentNo}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{MaterialDocumentNo}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="PurchOrg" filterProperty="PurchOrg">
+                            <ui:label>
+                                <Text text="{i18n>purchOrg}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{PurchOrg}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="Reference" filterProperty="Reference">
+                            <ui:label>
+                                <Text text="{i18n>reference}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{Reference}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="BillDate" filterProperty="BillDate">
+                            <ui:label>
+                                <Text text="{i18n>billDate}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{BillDate}" />
+                            </ui:template>
+                        </ui:Column>
+                        <ui:Column sortProperty="StatusDescription" filterProperty="StatusDescription">
+                            <ui:label>
+                                <Text text="{i18n>statusDescription}" />
+                            </ui:label>
+                            <ui:template>
+                                <Text text="{StatusDescription}" />
+                            </ui:template>
+                        </ui:Column>
+                    </ui:columns>
+                </ui:Table> -->
+            </f:content>
+        </f:DynamicPage>
+
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button id="id_CancelBtn" text="{i18n>Cancel}" press="onCancelButtonPress" visible="false"/>
+                <Button id="id_SubmitBtn" type="Accept" text="{i18n>Submit}" press="onSubmit" />
+                <!-- <Button id="id_Savebtn" type="Accept" text="{i18n>Approve}" visible="false" press="onDownloadExcel" /> -->
+                <Button id="id_ApproveBtn" type="Accept" text="{i18n>Approve}" visible="false" press="onActionPress" />
+                <Button id="id_RejectBtn" type="Reject" text="{i18n>Reject}" visible="false" press="onActionPress" />
+                <!-- <Button text="SEND MAIL" press="onSendEmailPress"/> -->
+                <!-- <Button type="Emphasized" text="{i18n>Next}"/> -->
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

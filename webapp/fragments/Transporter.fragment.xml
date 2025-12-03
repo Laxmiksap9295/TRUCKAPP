@@ -1,0 +1,193 @@
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:unified="sap.ui.unified"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout"
+	xmlns:table="sap.ui.table">
+	<Dialog id="myDialog" title="{i18n>Transporter Allocation}" class="sapUiResponsivePadding sapUiSizeCompact" draggable="true" resizable="true" contentWidth="1200px" contentHeight="900px">
+		<!-- Form Section -->
+		<form:SimpleForm id="SimpleFormChange480_12120Dual" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="2" singleContainerFullSize="false">
+			<form:content>
+				<core:Title  />
+				<Label text="{i18n>WeekPlan}" />
+				<Input id="id_selWeek" value="{selectedItem>/WeekNo}" editable="false" width="12rem"/>
+				<Label text="{i18n>UOM}" />
+				<Input id="id_Uom" value="{selectedItem>/UOM}" editable="false" width="12rem" />
+				<core:Title />
+				<Label text="{i18n>StDate}" />
+				<Input id="id_weekSDate" value="{selectedItem>/WeekSdate}" editable="false" width="12rem" />
+				<Label text="{i18n>EndDate}" />
+				<Input id="id_weekEDate" value="{selectedItem>/WeekEdate}" editable="false" width="12rem" />
+				<core:Title />
+
+				<Label text="{i18n>Quantity}" />
+				<Input id="id_qty" value="{selectedItem>/Quantity}" editable="false" width="12rem" />
+				<Label text="{i18n>TruckRequired}" />
+				<Input value="{selectedItem>/NoOfTrucks}" editable="false" width="12rem" />
+			</form:content>
+		</form:SimpleForm>
+		<!-- Table Section -->
+		<Toolbar>
+
+			<ToolbarSpacer />
+			<!-- <Label id="id_LRPercent" text="{i18n>RemainingPercentage}" design="boldText" /> -->
+			<Text id="id_RPercent" text="{= ${i18n>RemainingPercentage}.replace('{0}', ${selectedItem>/RemainingPercentage}) }"/>
+
+			<Button id="id_addBtn" icon="sap-icon://add" text="Add Row" press="onAddRow"/>
+		</Toolbar>
+		<!-- <table:Table id="myTable" inset="false" items="{TransportModel>/}" mode="SingleSelectMaster">
+			<Button text="Add" />
+			<columns>
+				<Column visible="false">
+					<Text text="{i18n>Slno}" />
+				</Column>
+				<Column visible="false">
+					<Text text="{i18n>Week}" />
+				</Column>
+				<Column>
+					<Text text="{i18n>Transporter}" />
+				</Column>
+				<Column>
+					<Text text="{i18n>TransporterName}" />
+				</Column>
+				<Column>
+					<Text text="{i18n>Percentage}" />
+				</Column>
+				<Column>
+					<Text text="{i18n>Rank}" />
+				</Column>
+				<Column>
+					<Text text="{i18n>Quantity}" />
+				</Column>
+				<Column>
+					<Text text="{i18n>Availability}" />
+				</Column>
+				<Column>
+					<Text text="{i18n>inprogressTrucks}" />
+				</Column>
+				<Column>
+					<Text text="{i18n>openTrucks}" />
+				</Column>
+				<Column>
+					<Text text="{i18n>Allocation}" />
+				</Column>
+
+				<Column width="3rem" />
+				<Column visible="false">
+					<Text text="{i18n>Quantity}" />
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem visible="{= ${TransportModel>Visible} !== false }">
+					<cells>
+						<Text text="{TransportModel>serialNo}" />
+						<Text id="id_week" text="{TransportModel>WeekNo}" />
+						<Input id="id_sTransporter" value="{TransportModel>Transporter}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpTransport" textAlign="beginButton"/>
+						<Text id="idTransporterName" text="{TransportModel>TransporterName}"/>
+						<Input value="{TransportModel>Percentage}" textAlign="beginButton" liveChange="onPercentageChange" change="onQuantityChange1"/>
+						<Text id="id_sRank" text="{TransportModel>Ranking}" textAlign="beginButton"/>
+						<Text text="{TransportModel>Quantity}" />
+						<Text id="id_sAvailability" text="{TransportModel>AvailableTrucks}" textAlign="beginButton"/>
+						<Text id="idInprogressTrucksText" />
+						<Text id="idOpenTrucksText" />
+						<Text id="idInprogressTrucksText" text="{TransportModel>Inprogress}" />
+						<Text id="idOpenTrucksText" text="{TransportModel>Opentrucks}"/>
+						<Input value="{TransportModel>NoOfTrucks}" editable="false" />
+						<Button icon="sap-icon://delete" press="onDeleteRow" type="Transparent" tooltip="Delete" />
+						<Text id="id_Quantity" text="{TransportModel>Quantity}" textAlign="beginButton"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</table:Table> -->
+		<table:Table id="myTable" rows="{TransportModel>/}" selectionMode="None" visibleRowCount="8" enableColumnReordering="true" columnHeaderVisible="true" width="100%">
+			<table:columns>
+				<table:Column width="120px">
+					<table:label>
+						<Label text="{i18n>Transporter}" />
+					</table:label>
+					<table:template>
+						<Input value="{TransportModel>Transporter}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpTransport" textAlign="Begin" />
+					</table:template>
+				</table:Column>
+				<table:Column width="272px">
+					<table:label>
+						<Label text="{i18n>TransporterName}" />
+					</table:label>
+					<table:template>
+						<Text text="{TransportModel>TransporterName}" />
+					</table:template>
+				</table:Column >
+				<table:Column width="110px">
+					<table:label>
+						<Label text="{i18n>Percentage}" />
+					</table:label>
+					<table:template>
+						<Input id="idTransporterAllocatedPerc" value="{TransportModel>Percentage}" textAlign="Begin" liveChange="onPercentageChange" change="onQuantityChange1" />
+					</table:template>
+				</table:Column>
+				<table:Column width="50px">
+					<table:label>
+						<Label text="{i18n>Rank}" />
+					</table:label>
+					<table:template>
+						<Text text="{TransportModel>Ranking}" textAlign="Begin" />
+					</table:template>
+				</table:Column>
+				<table:Column width="65px">
+					<table:label>
+						<Label text="{i18n>Quantity}" />
+					</table:label>
+					<table:template>
+						<Text text="{TransportModel>Quantity}" />
+					</table:template>
+				</table:Column>
+				<table:Column width="120px">
+					<table:label>
+						<Label text="{i18n>Availability}" />
+					</table:label>
+					<table:template>
+						<Text text="{TransportModel>AvailableTrucks}" textAlign="Begin" />
+					</table:template>
+				</table:Column>
+				<table:Column width="130px">
+					<table:label>
+						<Label text="{i18n>inprogressTrucks}" />
+					</table:label>
+					<table:template>
+						<Text text="{TransportModel>Inprogress}" />
+					</table:template>
+				</table:Column>
+				<table:Column width="95px">
+					<table:label>
+						<Label text="{i18n>openTrucks}" />
+					</table:label>
+					<table:template>
+						<Text text="{TransportModel>Opentrucks}" />
+					</table:template>
+				</table:Column>
+				<table:Column width="125px">
+					<table:label>
+						<Label text="{i18n>Allocation}" />
+					</table:label>
+					<table:template>
+						<Input value="{TransportModel>NoOfTrucks}" editable="false" />
+					</table:template>
+				</table:Column>
+				<table:Column width="50px">
+					<table:label>
+						<Label text="" />
+					</table:label>
+					<table:template>
+						<Button icon="sap-icon://delete" press="onDeleteRow" type="Transparent" tooltip="Delete" />
+					</table:template>
+				</table:Column>
+			</table:columns>
+		</table:Table>
+		<beginButton>
+			<Button id = "id_TransporterSave" text="{i18n>Save}" type="Emphasized" press="onSave" />
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>Close}" press="onCloseDialog" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>
